@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('/login', function () {
+Route::get('/signup', function () {
     return view('welcome');
 });
