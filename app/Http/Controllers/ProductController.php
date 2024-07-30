@@ -46,6 +46,7 @@ class ProductController extends Controller
             $this->productService->create((array)$productData);
             setFlashMessage("success",  trans('messages.success-add' ,  [ 'moduleName' => $this->moduleName ]  ) );
         }catch(\Exception $e){
+            var_dump($e->getMessage());die;
             setFlashMessage("danger",  trans('messages.error-add' ,  [ 'moduleName' => $this->moduleName ]  ) );
         }
         
