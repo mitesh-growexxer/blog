@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,24 +15,21 @@ use App\Http\Controllers\ProductController;
 |
 */
 
-Route::get('/signup', function () {
+Route::get('/', function () {
     return view('welcome');
 });
 
 Route::group(['middleware' => 'guest'], function () {
-    Route::get('/register', [AuthController::class, 'register'])->name('register');
-    Route::post('/register', [AuthController::class, 'registerPost'])->name('register');
-    Route::get('/', [AuthController::class, 'login'])->name('login');
-    Route::get('/login', [AuthController::class, 'login'])->name('login');
-    Route::post('/login', [AuthController::class, 'checkLogin'])->name('login');
+    Route::get('login', 'AuthController@login')->name('login');
+    Route::post('/login', 'AuthController@checkLogin');
+    Route::get('register', 'AuthController@register')->name('register');
+    Route::post('/register', 'AuthController@registerPost');
 });
-    
-Route::group(['middleware' => 'auth'], function () {
-    //Route::get('/dashboard', [Das::class, 'index']);
-    Route::delete('/logout', [AuthController::class, 'logout'])->name('logout');
-    
-    Route::get('product', [ProductController::class, 'index']);
-    Route::get('product/create', [ProductController::class, 'create']);
-    Route::post('product/store', [ProductController::class, 'store']);
-   
-});
+
+//Route::group(['middleware' => 'auth'], function () {
+    //Route::get('dashboard', 'aController@index');
+    Route::post('/logout', 'AuthController@logout')->name('logout');
+    Route::get('product', 'ProductController@index');
+    Route::get('product/create', 'ProductController@create');
+    Route::post('product/store', 'ProductController@store');
+//});
