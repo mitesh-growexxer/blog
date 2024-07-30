@@ -13,7 +13,7 @@
                         	@include('display-form-errors')
                         	@if( isset($recordInfo) && ( $recordInfo->id > 0 ) )
                         		<form action="{{ config('constants.PRODUCT_URL') . '/' . $recordInfo->id  }}" id="add-product-form" method="POST" enctype="multipart/form-data">
-                        		@method('PUT')	
+                        		{{ method_field('PUT') }}
                         	@else
                         		<form action="{{ config('constants.PRODUCT_URL') . '/store' }}" id="add-product-form" method="POST" enctype="multipart/form-data">
                         	@endif

@@ -39,7 +39,7 @@
             </ul>
             <form action="{{ route('logout') }}" method="POST" class="d-flex" role="search">
                 {{ csrf_field() }}
-                @method('DELETE')
+                {{ method_field('DELETE') }}
                 <button class="btn btn-danger" type="submit" title="{{ trans('messages.logout') }}">{{ trans('messages.logout') }}</button>
             </form>
           </div>

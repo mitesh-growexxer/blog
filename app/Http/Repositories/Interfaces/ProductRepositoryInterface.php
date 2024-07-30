@@ -8,4 +8,8 @@ Interface ProductRepositoryInterface
     
     public function storeProduct($data);
     
+    public function findProduct($id);
+    
+    public function updateProduct($data, $id);
+    
 }

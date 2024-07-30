@@ -99,5 +99,23 @@ class ProductRepository implements ProductRepositoryInterface
     {
         return \App\Product::create($data);    
     }
+    
+    /*
+     * Find Product By Id
+     */
+    public function findProduct($id)
+    {
+        return Product::findOrFail($id);
+    }
+    
+    /*
+     * Update Product
+     */
+    public function updateProduct($data, $id)
+    {
+        $product = Product::find($id);
+        $product->update($data);
+        return $product;
+    }
 }
 

@@ -74,6 +74,45 @@ class ProductController extends Controller
     }
     
     /*
+     * Edit Product Form
+     */
+    public function edit($id)
+    {
+        
+        try{
+            
+            $productInfo = $this->productService->find($id);
+            $data['pageTitle'] = trans('messages.update-module' , [ 'moduleName' => $this->moduleName ]);
+            $data['typeDetails'] = productTypeList();
+            $data['industryDetails'] = productIndustryList();
+            $data['categoryDetails'] = Category::all();
+            $data['recordInfo'] = $productInfo;
+            return view($this->folderName  . '.create' , $data );
+        }catch(\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $ex){
+            var_dump($ex->getMessage());die;
+        }
+    }
+    
+    /*
+     * Update Product Request
+     */
+    
+    public function update(ProductRequest $request , $id )
+    {
+        $productData = new ProductDTO($request);
+        
+        try{
+            $this->productService->update((array)$productData , $id);
+            setFlashMessage("success",  trans('messages.success-update' ,  [ 'moduleName' => $this->moduleName ]  ) );
+        }catch(\Exception $e){
+            var_dump($e->getMessage());die;
+            setFlashMessage("danger",  trans('messages.error-update' ,  [ 'moduleName' => $this->moduleName ]  ) );
+        }
+        
+        return redirect()->to($this->redirectUrl);
+    }
+    
+    /*
      * Filter Product Request
      */
     public function filter(Request $request)
