@@ -200,10 +200,12 @@
     				confirm_msg = "{{ trans('messages.common-confirm-msg' , [ 'action' => trans('messages.update') ] )  }}";	
     			@endif
     			
-    			alertify.alert(confirm_title ,  confirm_msg , function(){
-    				showLoader(); 
+    			alertify.confirm(confirm_title, confirm_msg, function() {
+                    showLoader(); 
     				form.submit();
-    			});
+                },function() {
+                    
+                });
     		}
     	})
     })

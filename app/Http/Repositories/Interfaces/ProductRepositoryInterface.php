@@ -12,4 +12,6 @@ Interface ProductRepositoryInterface
     
     public function updateProduct($data, $id);
     
+    public function deleteProduct($id);
+    
 }

@@ -21,7 +21,7 @@ class ProductDTO
         $this->purchase_date = dbDate($request->input('purchase_date'));
         $this->product_price = $request->input('product_price');
         $this->type = $request->input('type');
-        //$this->industry = (!empty($request->post('industry')) ? implode("," , $request->post('industry')) : null );
+        $this->industry = (!empty($request->input('industry')) ? implode("," , $request->input('industry')) : null );
         $this->product_image = null;
     }
 }

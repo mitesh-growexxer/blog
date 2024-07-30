@@ -113,6 +113,23 @@ class ProductController extends Controller
     }
     
     /*
+     * Delete Product Request
+     */
+    public function destroy($id)
+    {
+        try{
+            $deleteProduct = $this->productService->delete($id);
+            setFlashMessage("success",  trans('messages.success-delete' ,  [ 'moduleName' => $this->moduleName ]  ) );
+            return response()->json(['status' => true ] , 200 );
+        }catch(\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $ex){
+            return response()->json(['status' => false ,  'message' =>  trans('messages.error-delete' ,  [ 'moduleName' => $this->moduleName ] )  ] , 500 );
+        }
+        
+        return redirect()->to($this->redirectUrl);
+        
+    }
+    
+    /*
      * Filter Product Request
      */
     public function filter(Request $request)

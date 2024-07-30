@@ -117,5 +117,15 @@ class ProductRepository implements ProductRepositoryInterface
         $product->update($data);
         return $product;
     }
+    
+    /*
+     * Delete Product
+     */
+    public function deleteProduct($id)
+    {
+        
+        $product = Product::findOrFail($id);
+        $product->delete();
+    }
 }
 
