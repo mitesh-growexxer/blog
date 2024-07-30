@@ -9,7 +9,7 @@
 				<div class="card">
                     <div class="card-header">
                         <h4>{{ trans('messages.products') }}
-                            <a href="{{ config('constants.PRODUCT_URL') . '/create'}}" class="btn btn-primary float-end">{{ trans('messages.add-module' , [ 'moduleName' => trans('messages.product') ]); }}</a>
+                            <a href="{{ config('constants.PRODUCT_URL') . '/create'}}" class="btn btn-primary float-end" title="{{ trans('messages.add-product') }}">{{ trans('messages.add-product') }}</a>
                         </h4>
                     </div>
                     <div class="card-body">

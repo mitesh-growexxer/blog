@@ -32,4 +32,6 @@ Route::group(['middleware' => 'guest'], function () {
     Route::get('product', 'ProductController@index');
     Route::get('product/create', 'ProductController@create');
     Route::post('product/store', 'ProductController@store');
+    Route::post('product/filter', 'ProductController@filter');
+    Route::get('product/{id}/edit', 'ProductController@edit')->name('product.edit');
 //});

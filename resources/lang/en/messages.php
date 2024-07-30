@@ -69,6 +69,7 @@ return [
     'products' => 'Products',
     'login-success' => 'Login Successfully.',
     'register-success' => 'Register Successfully.',
+    'add-product' => 'Add Product',
     'email-password-not-match' => 'Email or Password not match.'
     
 ];
