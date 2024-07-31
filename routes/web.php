@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,9 +27,9 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('/register', 'AuthController@registerPost');
 });
 
-//Route::group(['middleware' => 'auth'], function () {
-    //Route::get('dashboard', 'aController@index');
-    Route::post('/logout', 'AuthController@logout')->name('logout');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('dashboard', 'DashboardController@index');
+    Route::delete('/logout', 'AuthController@logout')->name('logout');
     Route::get('product', 'ProductController@index');
     Route::get('product/create', 'ProductController@create');
     Route::post('product/store', 'ProductController@store');
@@ -36,4 +37,4 @@ Route::group(['middleware' => 'guest'], function () {
     Route::get('product/{id}/edit', 'ProductController@edit')->name('product.edit');
     Route::put('product/{id}', 'ProductController@update');
     Route::delete('product/{id}', 'ProductController@destroy');
-//});
+});

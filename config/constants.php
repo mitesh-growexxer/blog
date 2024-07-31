@@ -13,4 +13,6 @@ return [
     'PRODUCT_URL' => config('app.url') . '/product',
     'PHARMA' => 'Pharma',
     'BEAUTY_CARE' => 'Beauty Care',
+    'ADMIN_EMAIL' => 'admin@admin.com',
+    'ADMIN_PASS' => 'admin',
 ];
