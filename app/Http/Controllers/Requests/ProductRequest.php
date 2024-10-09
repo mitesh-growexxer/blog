@@ -25,20 +25,19 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'category_id' => [ 'required' , 'exists:categories,id' ],
+            //'category_id' => [ 'required' , 'exists:categories,id' ],
             'name' =>  [ 'required' , 'string', 'max:180' ],
-            'purchase_date' => ['required' , 'date_format:'.config('constants.CLIENT_SIDE_RECEIVE_FORMAT') ],
+            //'purchase_date' => ['required' , 'date_format:'.config('constants.CLIENT_SIDE_RECEIVE_FORMAT') ],
             'product_price' => [ 'required' , 'regex:/^\d+(\.\d{1,2})?$/' ],
-            'type' => ['required', "in:".config('constants.PRODUCT_TYPE').",".config('constants.SERVICE_TYPE') ],
-            'industry' => 'required',
-            'product_main_image' => [ 'mimes:jpeg,png,jpg' ]
+            //'type' => ['required', "in:".config('constants.PRODUCT_TYPE').",".config('constants.SERVICE_TYPE') ],
+            ///'industry' => 'required',
+            //'product_main_image' => [ 'mimes:jpeg,png,jpg' ]
         ];
     }
     
     protected function failedValidation(ValidatorContract $validator)
     {
         
-        // throw new HttpResponseException(response()->json( [ 'status' => false , 'message' => $validator->errors()->toArray() ]  , 422));
         $response = $this->expectsJson()
         ? response()->json([
             'success'   => false,

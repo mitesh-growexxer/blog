@@ -24,6 +24,8 @@
                                     <th>{{ trans('messages.price') }}</th>
                                     <th>{{ trans('messages.type') }}</th>
                                     <th>{{ trans('messages.industry') }}</th>
+                                    <th>Comment Count</th>
+                                    <th>Ordered Qty</th>
                                     <th>{{ trans('messages.actions') }}</th>
                                 </tr>
                             </thead>
@@ -54,10 +56,12 @@
             columns: [
                 { data: 'name', name: 'name' },
                 { data: 'purchase_date', name: 'purchase_date' },
-                { data: 'price', name: 'price' },
+                { data: 'product_price', name: 'product_price' },
                 { data: 'type', name: 'type' },
-                { data: 'industry', name: 'industry' },
-                { data: 'actions', name: 'actions' },
+                { data: 'industry', name: 'industry', sortable : false },
+                { data: 'commentCount', name: 'commentCount', sortable : true },
+                { data: 'orderedCount', name: 'orderedCount', sortable : true },
+                { data: 'actions', name: 'actions', sortable : false  },
             ]
         });
     });
@@ -70,9 +74,7 @@
     		var confirm_title = "{{ trans('messages.delete-record') }}";
     		var confirm_msg = "{{ trans('messages.common-confirm-msg' , [ 'action' => trans('messages.delete') ] )  }}";
     		var delete_url = "{{ config('app.url') }}" + '/' + record_module + '/' + record_id;
-    		console.log("delete_url" , delete_url );
     		alertify.alert(confirm_title ,  confirm_msg , function(){ 
-    				//form.submit();
     				$.ajax({
                         url: '{{ config('constants.PRODUCT_URL') }}/' + record_id,
                         type: 'DELETE',
@@ -84,7 +86,6 @@
                         	showLoader();
                         },
                         success: function(response) {
-                        	console.log("response" , response );
                         	hideLoader();
                             if (response.status) {
                                  location.reload();

@@ -54,7 +54,6 @@ if(!function_exists('apiFilePath'))
     {
         $result = null;
         if(!empty($dbPath)){
-            //$result = \Storage::disk('public')->url($dbPath);
             $result = $dbPath;
         }
         return $result;
@@ -142,5 +141,28 @@ if(!function_exists('productIndustryList'))
         $data[config('constants.PHARMA')] = trans('messages.pharma');
         $data[config('constants.BEAUTY_CARE')] = trans('messages.beauty-care');
         return $data;
+    }
+}
+
+if(!function_exists('formValidationMessage'))
+{
+    function formValidationMessage($type , $fieldName)
+    {
+       $message = null; 
+        switch($type){
+            case 'enter':
+                $message = trans('messages.required-enter-field-validation' , [ 'fieldName' => $fieldName ] );
+                break;
+            case 'select':
+                $message = trans('messages.required-select-field-validation' , [ 'fieldName' => $fieldName ] );
+                break;
+            case 'upload':
+                $message = trans('messages.required-upload-field-validation' , [ 'fieldName' => $fieldName ] );
+                break;
+            default:
+                $message = trans('messages.required-enter-field-validation' , [ 'fieldName' => $fieldName ] );
+                break;
+        }
+        return $message;
     }
 }

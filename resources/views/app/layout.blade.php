@@ -27,7 +27,7 @@
 <body>
 	<nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container">
-          <a class="navbar-brand" href="{{ route('login') }}" title="{{ trans('messages.navbar') }}">{{ trans('messages.navbar') }}</a>
+          <a class="navbar-brand 123" href="{{ route('dashboard') }}" title="{{ trans('messages.navbar') }}">{{ trans('messages.navbar') }}</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -35,6 +35,9 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{{ config('constants.PRODUCT_URL') }}" title="{{ trans('messages.product') }}" >{{ trans('messages.product') }}</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{{ config('app.url') . '/order' }}" title="{{ trans('messages.order') }}" >{{ trans('messages.order') }}</a>
               </li>
             </ul>
             <form action="{{ route('logout') }}" method="POST" class="d-flex" role="search">

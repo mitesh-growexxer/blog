@@ -29,8 +29,14 @@ class ProductController extends Controller
         try{
             $data = [];
             $data['pageTitle'] = $this->moduleName;
+            
+            //product type list
             $data['typeDetails'] = productTypeList();
+            
+            //product industry info
             $data['industryDetails'] = productIndustryList();
+            
+            //category details for dropdown
             $data['categoryDetails'] = Category::all();
             return view($this->folderName  . '.index' , $data );
         }catch(\Exception $e){
@@ -46,9 +52,17 @@ class ProductController extends Controller
     {
         $data = [];
         $data['pageTitle'] = trans('messages.add-module' , [ 'moduleName' => $this->moduleName ]);
+        
+        //product type list
         $data['typeDetails'] = productTypeList();
+        
+        //product industry info
         $data['industryDetails'] = productIndustryList();
+        
+        //category details for dropdown
         $data['categoryDetails'] = Category::all();
+        
+        //render add product view
         return view($this->folderName  . '.create' , $data );
     }
     
@@ -58,17 +72,20 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         //get data
-        
         $productData = new ProductDTO($request);
         
         try{
+            //add data
             $this->productService->create((array)$productData);
+            
+            //set message
             setFlashMessage("success",  trans('messages.success-add' ,  [ 'moduleName' => $this->moduleName ]  ) );
         }catch(\Exception $e){
             var_dump($e->getMessage());die;
             setFlashMessage("danger",  trans('messages.error-add' ,  [ 'moduleName' => $this->moduleName ]  ) );
         }
         
+        //redirect to listing page
         return redirect()->to($this->redirectUrl);
         
     }
@@ -80,16 +97,25 @@ class ProductController extends Controller
     {
         
         try{
-            
+            //get product info based on ud
             $productInfo = $this->productService->find($id);
             $data['pageTitle'] = trans('messages.update-module' , [ 'moduleName' => $this->moduleName ]);
+            
+            //product type list
             $data['typeDetails'] = productTypeList();
+            
+            //product industry info
             $data['industryDetails'] = productIndustryList();
+            
+            //category details for dropdown
             $data['categoryDetails'] = Category::all();
+            
             $data['recordInfo'] = $productInfo;
+            
+            //render edit product view
             return view($this->folderName  . '.create' , $data );
-        }catch(\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $ex){
-            var_dump($ex->getMessage());die;
+        }catch(\Exception $e){
+            var_dump($e->getMessage());die;
         }
     }
     
@@ -102,13 +128,18 @@ class ProductController extends Controller
         $productData = new ProductDTO($request);
         
         try{
+            
+            //update product
             $this->productService->update((array)$productData , $id);
+            
+            //success message
             setFlashMessage("success",  trans('messages.success-update' ,  [ 'moduleName' => $this->moduleName ]  ) );
         }catch(\Exception $e){
             var_dump($e->getMessage());die;
             setFlashMessage("danger",  trans('messages.error-update' ,  [ 'moduleName' => $this->moduleName ]  ) );
         }
         
+        //redirect to listing page
         return redirect()->to($this->redirectUrl);
     }
     
@@ -118,14 +149,16 @@ class ProductController extends Controller
     public function destroy($id)
     {
         try{
-            $deleteProduct = $this->productService->delete($id);
+            //delete product by id
+            $this->productService->delete($id);
+            
+            //set success message
             setFlashMessage("success",  trans('messages.success-delete' ,  [ 'moduleName' => $this->moduleName ]  ) );
             return response()->json(['status' => true ] , 200 );
-        }catch(\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $ex){
+        }catch(\Exception $e){
+            setFlashMessage("danger",  trans('messages.error-delete' ,  [ 'moduleName' => $this->moduleName ]  ) );
             return response()->json(['status' => false ,  'message' =>  trans('messages.error-delete' ,  [ 'moduleName' => $this->moduleName ] )  ] , 500 );
         }
-        
-        return redirect()->to($this->redirectUrl);
         
     }
     
@@ -135,21 +168,26 @@ class ProductController extends Controller
     public function filter(Request $request)
     {
        
+        //get product data
         $products = $this->productService->all($request);
        
+        //product count
         $totalRecords = $products->total();
         
         $data = [];
         
+        //loop for datatable
         if (!empty($products)) {
             foreach ($products as $product) {
                 $recordId = $product->id;
                 $rowData = [];
                 $rowData['name'] = $product->name;
                 $rowData['purchase_date'] = clientDisplayDate( $product->purchase_date );
-                $rowData['price'] = $product->product_price;
+                $rowData['product_price'] = $product->product_price;
                 $rowData['type'] = $product->type;
                 $rowData['industry'] = (!empty($product->industry) ? $product->industry : null );
+                $rowData['commentCount'] = (!empty($product->commentInfo) ? $product->commentInfo->count() : null );
+                $rowData['orderedCount'] = isset($product->total_quantity) ? $product->total_quantity : 0;
                 $rowData['actions'] = '<div>';
                 $rowData['actions'] .= '<a href="'.route('product.edit' , $recordId).'" class="btn btn-sm btn-info" title="'.trans('messages.edit-record').'">'.trans('messages.edit-record').'</a>';
                 $rowData['actions'] .= '<button type="button" onclick="deleteRecord(this);" data-module-name="product" data-record-id="'.$recordId.'" class="btn btn-sm btn-danger ms-2" title="'.trans('messages.delete-record').'" >'.trans('messages.delete-record').'</a>';
@@ -158,6 +196,7 @@ class ProductController extends Controller
             }
         }
         
+        //response info
         $response = [
             "draw" => intval($request->input('draw')),
             "recordsTotal" => intval($totalRecords),

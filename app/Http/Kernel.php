@@ -20,7 +20,6 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         //\Fruitcake\Cors\HandleCors::class,
     ];
-
     /**
      * The application's route middleware groups.
      *
@@ -40,6 +39,8 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
             'bindings',
+            'twt-cors',
+            \App\Http\Middleware\CorsMiddleware::class,
         ],
     ];
 
@@ -57,5 +58,6 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'twt-cors' => \App\Http\Middleware\CorsMiddleware::class,
     ];
 }

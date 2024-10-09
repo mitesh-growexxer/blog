@@ -166,28 +166,28 @@
     		},
     		messages : {
     			category_id : {
-    				required : "{{ trans('messages.required-select-field-validation' , [ 'fieldName' => trans('messages.category') ] ) }}"
+    				required : "{{ formValidationMessage('select' ,  trans('messages.category')) }}"
     			},
     			name : {
-    				required : "{{ trans('messages.required-enter-field-validation' , [ 'fieldName' => trans('messages.name') ] ) }}"
+    				required : "{{ formValidationMessage('enter' ,  trans('messages.name'))  }}"
     			},
     			description : {
-    				required : "{{ trans('messages.required-enter-field-validation' , [ 'fieldName' => trans('messages.description') ] ) }}"
+    				required : "{{ formValidationMessage('enter' ,  trans('messages.description')) }}"
     			},
     			purchase_date : {
-    				required : "{{ trans('messages.required-select-field-validation' , [ 'fieldName' => trans('messages.purchase-date') ] ) }}"
+    				required : "{{ formValidationMessage('select' ,  trans('messages.purchase-date')) }}"
     			},
     			product_price : {
-    				required : "{{ trans('messages.required-enter-field-validation' , [ 'fieldName' => trans('messages.price') ] ) }}"
+    				required : "{{ formValidationMessage('enter' ,  trans('messages.price')) }}"
     			},
     			type : {
-    				required : "{{ trans('messages.required-select-field-validation' , [ 'fieldName' => trans('messages.type') ] ) }}"
+    				required : "{{ formValidationMessage('select' ,  trans('messages.type')) }}"
     			},
     			"industry[]" : {
-    				required : "{{ trans('messages.required-select-field-validation' , [ 'fieldName' => trans('messages.industry') ] ) }}"
+    				required : "{{ formValidationMessage('select' ,  trans('messages.industry')) }}"
     			},
     			product_image : {
-    				required : "{{ trans('messages.required-upload-field-validation' , [ 'fieldName' => trans('messages.product-image') ] ) }}"
+    				required : "{{ formValidationMessage('upload' ,  trans('messages.product-image')) }}"
     			},
     		},
     		submitHandler : function(form){

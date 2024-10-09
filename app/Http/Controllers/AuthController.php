@@ -15,11 +15,13 @@ class AuthController extends Controller
      */
     public function register()
     {
+        //render register page
         return view('register');
     }
     
     public function registerPost(Request $request)
     {
+        //check validation
         $rules = array(
             'name'       => 'required',
             'email'      => 'required|email',
@@ -27,7 +29,7 @@ class AuthController extends Controller
         );
         $validator = Validator::make($request->all(), $rules);
         
-        // process the login
+        // process the register
         if ($validator->fails()) {
             return redirect('register')
             ->withErrors($validator)
@@ -39,8 +41,10 @@ class AuthController extends Controller
             $user->email = $request->email;
             $user->password = Hash::make($request->password);
             
+            //save user
             $user->save();
             
+            //redirect with success message
             return back()->with('success', trans('messages.register-success'));
         }
         
@@ -59,36 +63,67 @@ class AuthController extends Controller
      */
     public function checkLogin(Request $request)
     {
+        //return response()->json(['dd' => 'ss'],200);
+        //check validation
         $rules = array(
             'email'      => 'required|email',
             'password' => 'required'
         );
+        //return response()->json('ssss', 422);
+       
         $validator = Validator::make($request->all(), $rules);
-        
+       
+        $apiRequest =  ( $request->is('api/*') || $request->expectsJson() );
         // process the login
         if ($validator->fails()) {
-            return redirect('login')
-            ->withErrors($validator)
-            ->withInput();
+            if ($apiRequest != false) {
+                return response()->json($validator->errors(), 422);
+            } else {
+                return redirect('login')
+                ->withErrors($validator)
+                ->withInput();
+            }
         } else {
+            //post params for login
             $credetials = [
                 'email' => $request->email,
                 'password' => $request->password,
             ];
             
+            //try login
             if (Auth::attempt($credetials)) {
-                return redirect('/dashboard')->with('success', trans('messages.login-success'));
+                if ($apiRequest != false) {
+                    $token = str_random(60);
+                    $user = Auth::user();
+                    //return response()->json(trans('messages.email-password-not-match'), 400);
+                    //return response()->json(['dd' => 'ss'],400)->header("Access-Control-Allow-Origin",  "*");;
+                    return response()->json(['token' => $token,'user' => $user],200);
+                } else {
+                    return redirect('/dashboard')->with('success', trans('messages.login-success'));
+                }
+                
             }
             
-            return back()->with('error', trans('messages.email-password-not-match'));
+            //redirect with error
+            if ($apiRequest != false) {
+                return response()->json(trans('messages.email-password-not-match'), 400);
+            } else {
+                return back()->with('error', trans('messages.email-password-not-match'));
+            }
+            
         }
         
     }
     
+    /*
+     * Logout
+     */
     public function logout()
     {
+        //execute logout
         Auth::logout();
         
+        //redirect login page
         return redirect()->route('login');
     }
 }

@@ -70,6 +70,7 @@ return [
     'login-success' => 'Login Successfully.',
     'register-success' => 'Register Successfully.',
     'add-product' => 'Add Product',
-    'email-password-not-match' => 'Email or Password not match.'
+    'email-password-not-match' => 'Email or Password not match.',
+    'order'=>'Order'
     
 ];
